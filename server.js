@@ -18,8 +18,8 @@ app.use(express.json())
 dotenv.config()
 
 
-app.use('/api/v1/chats', route)
-app.use('/api/v1/chats', getMessageroute)
+app.use('/', route)
+app.use('/', getMessageroute)
 
 // Db Config
 mongoose.connect(process.env.DATABASE_URL, {
