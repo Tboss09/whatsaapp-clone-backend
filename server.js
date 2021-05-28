@@ -35,21 +35,21 @@ db.on('open', () => {
 
 const httpServer = createServer()
 
-const io = new Server(httpServer, {
- cors: {
-  origin: 'http://localhost:3000',
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['my-custom-header'],
-  credentials: true,
- },
-})
-
-io.on('connection',socket =>{
-    socket.on('chat message',msg =>{
-        console.log(msg)
-    })
-})
-
 httpServer.listen(port, () => {
  console.log(`Port listening on port :${port}`)
 })
+
+const io = new Server(httpServer, {
+    cors: {
+     origin: 'http://localhost:3000',
+     methods: ['GET', 'POST'],
+     allowedHeaders: ['my-custom-header'],
+     credentials: true,
+    },
+   })
+   
+   io.on('connection', socket => {
+    socket.on('chat message', msg => {
+     console.log(msg)
+    })
+   })
