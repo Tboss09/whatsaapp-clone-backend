@@ -18,27 +18,7 @@ const app = express()
 app.use(express.json())
 dotenv.config()
 app.use(cors())
-
-const httpServer = createServer()
-const io = new Server(httpServer, {
- cors: {
-  origin: 'http://localhost:3000',
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['my-custom-header'],
-  credentials: true,
- },
-})
-
-io.on('connection', socket => {
- console.log('connection made success')
- socket.on('message', payload => {
-  console.log('Message recieved', payload)
-  io.emit('message', payload)
- })
- // ...
-})
-
-app.use('/', route)
+// internal
 app.use('/', getMessageroute)
 
 // Db Config
@@ -52,6 +32,23 @@ db.on('open', () => {
  console.log('Database connected successfully')
 })
 // Db Config
+
+const httpServer = createServer()
+
+const io = new Server(httpServer, {
+ cors: {
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['my-custom-header'],
+  credentials: true,
+ },
+})
+
+io.on('connection',socket =>{
+    socket.on('chat message',msg =>{
+        console.log(msg)
+    })
+})
 
 httpServer.listen(port, () => {
  console.log(`Port listening on port :${port}`)
