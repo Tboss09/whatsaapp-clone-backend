@@ -1,25 +1,25 @@
 //external routes
 import express from 'express'
-// for socket io
-import { Server } from 'socket.io'
-import { createServer } from 'http'
-// for socket io
 import cors from 'cors'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
-
+import { httpServer, io } from './sockets/socket.js'
 //internal route
-import route from './routes/route.js'
-import getMessageroute from './routes/groupMessage.js'
+// external files
+import {
+ getAllGroups,
+ getGroupBy_id,
+ sendChatMessage,
+} from './controllers/whatsapp.js'
 
 const port = process.env.PORT || 5000
-
 const app = express()
+
+// middlewares
 app.use(express.json())
 dotenv.config()
 app.use(cors())
-// internal
-app.use('/', getMessageroute)
+// middlewares
 
 // Db Config
 mongoose.connect(process.env.DATABASE_URL, {
@@ -30,26 +30,16 @@ mongoose.connect(process.env.DATABASE_URL, {
 const db = mongoose.connection
 db.on('open', () => {
  console.log('Database connected successfully')
+ io.on('connection', socket => {
+  console.log('A user just connected')
+  socket.on('get_all_whatsapp_group', getAllGroups)
+  socket.on('get_group_by_id', args => getGroupBy_id(args))
+  socket.on('send_chat_message', args => sendChatMessage(args))
+ })
 })
-// Db Config
+// Db Configuration
 
-const httpServer = createServer()
-
+// Socket.io config
 httpServer.listen(port, () => {
  console.log(`Port listening on port :${port}`)
 })
-
-const io = new Server(httpServer, {
-    cors: {
-     origin: 'http://localhost:3000',
-     methods: ['GET', 'POST'],
-     allowedHeaders: ['my-custom-header'],
-     credentials: true,
-    },
-   })
-   
-   io.on('connection', socket => {
-    socket.on('chat message', msg => {
-     console.log(msg)
-    })
-   })
