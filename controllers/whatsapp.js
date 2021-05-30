@@ -14,9 +14,12 @@ export const getAllGroups = () => {
 // FInd group by each id and retrieve its message
 export const getGroupBy_id = args => {
  const _id = args
-
  WhatsappChats.findById(_id, function (err, res) {
-  err ? console.log(err) : io.sockets.emit('get_group_with_id', res)
+  err && console.log(err)
+  if (res) {
+   io.sockets.emit('get_group_with_id', res)
+   console.log(args)
+  }
  })
 }
 
@@ -44,11 +47,11 @@ export const sendChatMessage = args => {
  // io.sockets.
 }
 
-// Create New Group
+// Create New Groupcd server
 export const createNewGroup = args => {
  console.log(args)
  WhatsappChats.create(args, function (err, small) {
-  err ? console.log(err) : console.log('object')
+  err ? console.log(err) : console.log(small)
  })
 }
 export const getLastSentMessage = args => {
