@@ -5,9 +5,11 @@ import { io } from '../sockets/socket.js'
 
 // Get all groups
 export const getAllGroups = () => {
- WhatsappChats.find({}).then(docs => {
-  io.sockets.emit('get_data', docs)
- })
+ WhatsappChats.find({})
+  .sort({ _id: -1 })
+  .then(docs => {
+   io.sockets.emit('get_data', docs)
+  })
 }
 // FInd group by each id and retrieve its message
 export const getGroupBy_id = args => {
@@ -20,6 +22,35 @@ export const getGroupBy_id = args => {
 
 // send text message
 export const sendChatMessage = args => {
- console.log(args)
+ const { name, message, _id } = args
+ const chat = { name, message }
+ console.log(chat)
+ WhatsappChats.findOneAndUpdate(
+  { _id: _id },
+  { $push: { user: chat } },
+  { new: true },
+  function (error, success) {
+   if (success) {
+    WhatsappChats.findById(_id)
+     .select({ user: { $slice: -1 } })
+     .exec((err, doc) => {
+      io.sockets.emit('chat_message', doc.user)
+      console.log(doc.user)
+     })
+   }
+  }
+ )
+
  // io.sockets.
+}
+
+// Create New Group
+export const createNewGroup = args => {
+ console.log(args)
+ WhatsappChats.create(args, function (err, small) {
+  err ? console.log(err) : console.log('object')
+ })
+}
+export const getLastSentMessage = args => {
+ WhatsappChats.findById()
 }
