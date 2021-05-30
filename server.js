@@ -11,6 +11,7 @@ import {
  getGroupBy_id,
  sendChatMessage,
  createNewGroup,
+ getWhatsappGroups,
 //  getLastSentMessage
 } from './controllers/whatsapp.js'
 
@@ -44,6 +45,8 @@ db.on('open', () => {
  })
 })
 // Db Configuration
+
+app.get("/",(req,res) => getWhatsappGroups)
 
 // Socket.io config
 httpServer.listen(port, () => {
