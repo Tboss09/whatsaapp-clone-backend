@@ -11,9 +11,9 @@ import {
  getGroupBy_id,
  sendChatMessage,
  createNewGroup,
- getWhatsappGroups,
 //  getLastSentMessage
 } from './controllers/whatsapp.js'
+import WhatsappDatabase from './database/Schema.js'
 
 const port = process.env.PORT || 5000
 const app = express()
@@ -46,7 +46,13 @@ db.on('open', () => {
 })
 // Db Configuration
 
-app.get("/",(req,res) => getWhatsappGroups)
+app.get("/",(req,res) => {
+  WhatsappDatabase.find({})
+  .sort({ _id: -1 })
+  .then(docs => {
+   io.sockets.emit('get_data', docs)
+  })
+})
 
 // Socket.io config
 httpServer.listen(port, () => {

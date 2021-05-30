@@ -11,13 +11,7 @@ export const getAllGroups = () => {
    io.sockets.emit('get_data', docs)
   })
 }
-export const  getWhatsappGroups = (req,res) => {
- WhatsappChats.find({})
-  .sort({ _id: -1 })
-  .then(docs => {
-   io.sockets.emit('get_data', docs)
-  })
-}
+
 
 // FInd group by each id and retrieve its message
 export const getGroupBy_id = args => {
