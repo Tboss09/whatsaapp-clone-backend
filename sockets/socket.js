@@ -8,7 +8,7 @@ export const io = new Server(httpServer, {
  cors: {
   origin: 'https://whatsaap-clone-786e3.web.app',
   methods: ['GET', 'POST'],
-  credentials: true,
+  credentials:false,
   allowedHeaders: ['my-custom-header'],
  },
 })
