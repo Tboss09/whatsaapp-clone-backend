@@ -4,4 +4,8 @@ import { Server } from 'socket.io'
 
 export const httpServer = createServer()
 
-export const io = new Server(httpServer)
+export const io = new Server(httpServer, {
+ cors: {
+  origin: 'https://whatsaap-clone-683bb.web.app',
+ },
+})
