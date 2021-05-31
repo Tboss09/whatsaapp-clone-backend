@@ -4,10 +4,4 @@ import { Server } from 'socket.io'
 
 export const httpServer = createServer()
 
-export const io = new Server(httpServer, {
- cors: {
-  origin: '*', 
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['my-custom-header'],
- },
-})
+export const io = new Server(httpServer)
