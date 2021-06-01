@@ -11,7 +11,7 @@ import {
  getGroupBy_id,
  sendChatMessage,
  createNewGroup,
-  getLastSentMessage
+ getLastSentMessage,
 } from './controllers/whatsapp.js'
 import WhatsappDatabase from './database/Schema.js'
 
@@ -40,7 +40,7 @@ db.on('open', () => {
   socket.on('get_group_by_id', args => getGroupBy_id(args))
   socket.on('send_chat_message', args => sendChatMessage(args))
   socket.on('create_new_group', args => createNewGroup(args))
-    socket.on('get_last_sent_message_foreach_group', args => getLastSentMessage)
+  socket.on('get_last_sent_message_foreach_group', getLastSentMessage)
  })
 })
 // Db Configuration
@@ -51,7 +51,7 @@ app.get('/', (req, res) => {
   .then(docs => {
    res.status(200).json({ docs })
   })
-  console.log(req.params)
+ console.log(req.params)
 })
 
 // Socket.io config

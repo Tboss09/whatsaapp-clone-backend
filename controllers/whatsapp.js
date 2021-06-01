@@ -62,7 +62,7 @@ export const getLastSentMessage = () => {
  WhatsappChats.find({})
   .select({ user: { $slice: -1 } })
   .exec((err, doc) => {
-   io.sockets.emit('get_last_sent_text_message_for_group', doc.user)
+   io.sockets.emit('get_last_sent_message_foreach_group', doc.user)
    console.log(doc.user)
   })
 }
