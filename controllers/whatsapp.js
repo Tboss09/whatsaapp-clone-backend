@@ -57,6 +57,7 @@ export const createNewGroup = args => {
  })
 }
 
+// get last message sent
 export const getLastSentMessage = () => {
  WhatsappChats.find({})
   .select({ user: { $slice: -1 } })

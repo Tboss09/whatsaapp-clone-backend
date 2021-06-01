@@ -40,7 +40,7 @@ db.on('open', () => {
   socket.on('get_group_by_id', args => getGroupBy_id(args))
   socket.on('send_chat_message', args => sendChatMessage(args))
   socket.on('create_new_group', args => createNewGroup(args))
-    socket.on('get_last_sent_message_foreach_group', args => getLastSentMessage(args))
+    socket.on('get_last_sent_message_foreach_group', args => getLastSentMessage)
  })
 })
 // Db Configuration
