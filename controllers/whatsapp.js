@@ -12,15 +12,14 @@ export const getAllGroups = () => {
   })
 }
 
-
 // FInd group by each id and retrieve its message
 export const getGroupBy_id = args => {
  const _id = args
+ console.log(args)
  WhatsappChats.findById(_id, function (err, res) {
   err && console.log(err)
   if (res) {
    io.sockets.emit('get_group_with_id', res)
-   console.log(args)
   }
  })
 }
@@ -30,6 +29,7 @@ export const sendChatMessage = args => {
  const { name, message, _id } = args
  const chat = { name, message }
  console.log(chat)
+
  WhatsappChats.findOneAndUpdate(
   { _id: _id },
   { $push: { user: chat } },
@@ -39,7 +39,7 @@ export const sendChatMessage = args => {
     WhatsappChats.findById(_id)
      .select({ user: { $slice: -1 } })
      .exec((err, doc) => {
-      io.sockets.emit('chat_message', doc.user)
+      io.sockets.emit('get_last_sent_text_message', doc.user)
       console.log(doc.user)
      })
    }
@@ -56,6 +56,12 @@ export const createNewGroup = args => {
   err ? console.log(err) : console.log(small)
  })
 }
-export const getLastSentMessage = args => {
- WhatsappChats.findById()
+
+export const getLastSentMessage = () => {
+ WhatsappChats.find({})
+  .select({ user: { $slice: -1 } })
+  .exec((err, doc) => {
+   io.sockets.emit('get_last_sent_text_message_for_group', doc.user)
+   console.log(doc.user)
+  })
 }
