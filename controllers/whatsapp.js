@@ -6,7 +6,7 @@ import { io } from '../sockets/socket.js'
 // Get all groups
 export const getAllGroups = () => {
  WhatsappChats.find({})
-  .sort({ _id: -1 })
+  .sort({ date: 1 })
   .then(docs => {
    io.sockets.emit('get_data', docs)
   })
@@ -20,6 +20,7 @@ export const getGroupBy_id = args => {
   err && console.log(err)
   if (res) {
    io.sockets.emit('get_group_with_id', res)
+   console.log(res)
   }
  })
 }
@@ -59,10 +60,7 @@ export const createNewGroup = args => {
 
 // get last message sent
 export const getLastSentMessage = () => {
- WhatsappChats.find({})
-  .select({ user: { $slice: -1 } })
-  .exec((err, doc) => {
-   io.sockets.emit('get_last_sent_message_foreach_group', doc.user)
-   console.log(doc.user)
-  })
+ WhatsappChats.find({ user: { $exists: true, $ne: [] } }, { user: { $slice: -1 } })
+  .then(data => io.sockets.emit('get_last_sent_message_foreach_group', data))
+  .catch(err => console.log('Error found :', err))
 }
