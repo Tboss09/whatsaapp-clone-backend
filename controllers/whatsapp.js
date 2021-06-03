@@ -26,7 +26,7 @@ export const getGroupBy_id = args => {
 }
 
 // send text message
-export const sendChatMessage = args => {
+export const sendChatMessage = (args, socket) => {
  const { name, message, _id } = args
  const chat = { name, message }
  console.log(chat)
@@ -40,7 +40,8 @@ export const sendChatMessage = args => {
     WhatsappChats.findById(_id)
      .select({ user: { $slice: -1 } })
      .exec((err, doc) => {
-      io.sockets.emit('get_last_sent_text_message', doc.user)
+      io.emit('get_last_sent_text_message', doc.user)
+      socket.broadcast.emit('notification_to_user', doc.user)
      })
    }
   }
