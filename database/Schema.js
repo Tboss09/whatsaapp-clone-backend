@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema({
 },{timestamps:true})
 
 const GroupChatSchema = mongoose.Schema({
- name: String,
+    name: String,
  user: [userSchema],
  date: { type: String, default: Date },
 },{timestamps:true})

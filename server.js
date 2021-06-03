@@ -13,11 +13,13 @@ import {
  createNewGroup,
  getLastSentMessage,
 } from './controllers/whatsapp.js'
-import WhatsappDatabase from './database/Schema.js'
 
 const port = process.env.PORT || 5000
 const app = express()
-
+app.get('/', (req, res) => {
+ console.log(req.body)
+ res.send('wonderfullll')
+})
 // middlewares
 app.use(express.json())
 dotenv.config()
@@ -44,15 +46,6 @@ db.on('open', () => {
  })
 })
 // Db Configuration
-
-app.get('/', (req, res) => {
- WhatsappDatabase.find({})
-  .sort({ _id: -1 })
-  .then(docs => {
-   res.status(200).json({ docs })
-  })
- console.log(req.params)
-})
 
 // Socket.io config
 httpServer.listen(port, () => {

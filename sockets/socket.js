@@ -8,6 +8,5 @@ export const io = new Server(httpServer, {
  cors: {
   origin: '*',
   methods: ['GET', 'POST'],
-  allowedHeaders: ['my-custom-header'],
  },
 })
