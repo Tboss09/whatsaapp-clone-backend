@@ -14,12 +14,10 @@ import {
  getLastSentMessage,
 } from './controllers/whatsapp.js'
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 4000
 const app = express()
-app.get('/', (req, res) => {
- console.log(req.body)
- res.send('wonderfullll')
-})
+
+
 // middlewares
 app.use(express.json())
 dotenv.config()
@@ -39,7 +37,7 @@ db.on('open', () => {
  io.on('connection', socket => {
   console.log('A user just connected')
   socket.on('get_all_whatsapp_group', getAllGroups)
-  socket.on('get_group_byks_id', args => getGroupBy_id(args))
+  socket.on('get_group_by_id', args => getGroupBy_id(args))
   socket.on('send_chat_message', args => sendChatMessage(args,socket))
   socket.on('create_new_group', args => createNewGroup(args))
   socket.on('get_last_sent_message_foreach_group', getLastSentMessage)
