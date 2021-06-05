@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 
 const userSchema = mongoose.Schema({
  email: String,
+ name: String,
  message: String,
  color :String,
  date: { type: String, default: Date },
