@@ -27,9 +27,9 @@ export const getGroupBy_id = args => {
 
 // send text message
 export const sendChatMessage = (args, socket) => {
- const { name, message, _id } = args
- const chat = { name, message }
- console.log(chat)
+ const { email, message, _id, color} = args
+ const chat = { email, message,color }
+console.log(chat)
 
  WhatsappChats.findOneAndUpdate(
   { _id: _id },

@@ -1,8 +1,9 @@
 import mongoose from 'mongoose'
 
 const userSchema = mongoose.Schema({
- name: String,
+ email: String,
  message: String,
+ color :String,
  date: { type: String, default: Date },
 },{timestamps:true})
 
